@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 // can not find error occured
 // const { User } = require('./models/User');
 const { User } = require('./models/User.tsx');
+const config = require('./config/key.tsx');
 
 // application/x-www-urlencoded data 분석해서 가져옴
 app.use(bodyParser.urlencoded({extended:true}));
@@ -12,7 +13,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://jahyun12345:qlalfqjsgh12@jahyun12345.ijjvj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect(config.mongoURI, {
     // 에러방지 
     useNewUrlParrser: true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false
 }).then(() => console.log('MongoDB Connected!')).catch(err => console.log(err))
