@@ -23,8 +23,8 @@ mongoose.connect(config.mongoURI, {
 app.get('/', (req, res) => res.send('Hello World! 54321'))
 
 // client에서 입력 된 signup data database에 넣어줌
+// sign-up
 app.post('/register', (req, res) => {
-
     // bodyParser로 받아올 수 있음
     const user = new User(req.body)
     // mognoDB method : save()
@@ -34,6 +34,27 @@ app.post('/register', (req, res) => {
         // 성공 : .status(200)
         return res.status(200).json({
             success:true
+        })
+    })
+})
+
+// sign-in
+app.post('/login', (req, res) => {
+    // 요청된 이메일 데이터베이스에서 찾음
+    User.findOne({ email:req.body.email}, (err, user) => {
+        if (!user) {
+            return res.json({
+                loginSuccess: 'false',
+                message: '입력한 이메일로 가입된 계정이 없습니다.'
+            })
+        }
+    })
+    // 요청된 이메일 데이터베이스에 존재 시 비밀번호 확인
+    User.comparePassword(req.body.password, (err, isMatch) => {
+        if (!isMatch) return res.json({loginSuccess: 'false', message: '비밀번호가 틀렸습니다.'})
+        // 비밀번호 맞으면 토큰 생성
+        User.generateToken((err, user) => {
+            
         })
     })
 

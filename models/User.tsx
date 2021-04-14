@@ -53,8 +53,24 @@ userSchema.pre('save', function(next) {
                 next()
             });
         });
+    // 암호 변경이 아닌 경우에 넘어가도록 설정 
+    } else {
+        next()
     }
 })
+
+// 입력 비밀번호 일치 확인 메소드
+// index comparePassword method와 바인딩되어 있으므로 이름 일치
+userSchema.methods.comparePassword = function(plainPassword, cb) {
+    // plainPassword : 암호화된 입력 비밀번호
+    // this.password : 암호화된 db에 저장된 비밀번호
+    // 암호화 값 비교위해 bcrypt.compare 사용
+    bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
+        if (err) return cb(err),
+        // 두 비밀번호 일치 시 isMatch true 값 반환
+        cb(null, isMatch)
+    })
+}
 
 const User = mongoose.model('User', userSchema)
 
