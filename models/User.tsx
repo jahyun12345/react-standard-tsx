@@ -87,7 +87,7 @@ userSchema.methods.generateToken = function(cb) {
 }
 
 // 토큰으로 사용자 검색
-userSchema.static.findByToken = function(token, cb) {
+userSchema.statics.findByToken = function(token, cb) {
     var user = this;
 
     // token decode

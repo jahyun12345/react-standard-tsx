@@ -68,6 +68,7 @@ app.post('/api/users/login', (req, res) => {
     })
 })
 
+// auth checking
 // callback 전에 auth(middleware) 처리 필요
 app.get('/api/users/auth', auth, (req, res) => {
     // auth에서 에러 발생 X = Authentication : true
@@ -81,7 +82,14 @@ app.get('/api/users/auth', auth, (req, res) => {
         role: req.user.role,
         image: req.user.image
     })
+})
 
+// sign-out
+app.get('/api/users/logout', auth, (req, res) => {
+    User.findOneAndUpdate({_id: req.user.id}, {token: ""}, (err, user) => {
+        if (err) return res.json({success: false, err});
+        return res.status(200).send({success: true});
+    })
 })
 
 app.listen(port, () => console.log('Example app listening on port' + port + '!'))
