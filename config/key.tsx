@@ -7,6 +7,6 @@
 // }
 
 module.exports = require('./dev.tsx');
-console.log(process.env);
-// undefined value return
-console.log(process.env.NODE_ENV);
+// console.log(process.env);
+// // undefined value return
+// console.log(process.env.NODE_ENV);

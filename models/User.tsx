@@ -1,4 +1,8 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+// saltRounds : 암호화 비밀번호인 salt가 몇 글자인지
+const saltRounds = 10;
+
 
 const userSchema = mongoose.Schema({
     name: {
@@ -29,6 +33,26 @@ const userSchema = mongoose.Schema({
     },
     tokenExp: {
         type: Number
+    }
+})
+
+// User Model 호출하여 save() 메소드 실행 전에 먼저 실행되도록 설정
+// arrow function 사용시 this 사용 불가능하므로 function()로 설정
+userSchema.pre('save', function(next) {
+    var user = this;
+    
+    // 암호 변경시에만 호출되도록 설정
+    if (user.isModified('password')) {
+        // salt 생성 => salt 이용하여 비밀번호 암호화
+        bcrypt.genSalt(saltRounds, function(err, salt) {
+            if (err) return next(err)
+            bcrypt.hash(user.password, salt, function(err, hash) {
+                if (err) return next(err)
+                user.password = hash
+                // index에서 호출되도록 next() 호출
+                next()
+            });
+        });
     }
 })
 
