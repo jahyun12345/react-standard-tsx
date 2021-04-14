@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const { User } = require('./models/User.tsx');
 const config = require('./config/key.tsx');
 const cookieParser = require('cookie-parser');
+const { auth } = require('./middleware/auth.tsx');
 
 // application/x-www-urlencoded data 분석해서 가져옴
 app.use(bodyParser.urlencoded({extended:true}));
@@ -27,7 +28,7 @@ app.get('/', (req, res) => res.send('Hello World! 54321'))
 
 // client에서 입력 된 signup data database에 넣어줌
 // sign-up
-app.post('/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
     // bodyParser로 받아올 수 있음
     const user = new User(req.body)
     // mognoDB method : save()
@@ -42,8 +43,8 @@ app.post('/register', (req, res) => {
 })
 
 // sign-in
-app.post('/login', (req, res) => {
-    // 요청된 이메일 데이터베이스에서 찾음
+app.post('/api/users/login', (req, res) => {
+    // 요청된 이메일 데이터베이스에서 찾음(findOne() : mongoDB method)
     User.findOne({ mail:req.body.mail }, (err, user) => {
         if (!user) {
             return res.json({
@@ -65,6 +66,22 @@ app.post('/login', (req, res) => {
             })
         })
     })
+})
+
+// callback 전에 auth(middleware) 처리 필요
+app.get('/api/users/auth', auth, (req, res) => {
+    // auth에서 에러 발생 X = Authentication : true
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        mail: req.user.mail,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image
+    })
+
 })
 
 app.listen(port, () => console.log('Example app listening on port' + port + '!'))

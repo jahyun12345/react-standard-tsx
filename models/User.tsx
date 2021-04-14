@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema({
         minlength: 5
     },
     lastname: {
-        type: String,
+        type: String, 
         maxlength: 50
     },
     // auth 구분 위해
@@ -84,7 +84,20 @@ userSchema.methods.generateToken = function(cb) {
         if (err) return cb(err)
         cb(null, user)
     })
+}
 
+// 토큰으로 사용자 검색
+userSchema.static.findByToken = function(token, cb) {
+    var user = this;
+
+    // token decode
+    jwt.verify(token, 'secretToken', function(err, decoded) {
+        // user id로 사용자 찾은 후 cookie token / DB token 일치 확인
+        user.findOne({"_id": decoded, "token": token}, function(err, user) {
+            if (err) return cb(err);
+            cb(null, user)
+        })
+    })
 }
 
 const User = mongoose.model('User', userSchema)
