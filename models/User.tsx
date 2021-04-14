@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 // saltRounds : 암호화 비밀번호인 salt가 몇 글자인지
 const saltRounds = 10;
-
+var jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
     name: {
@@ -60,16 +60,31 @@ userSchema.pre('save', function(next) {
 })
 
 // 입력 비밀번호 일치 확인 메소드
-// index comparePassword method와 바인딩되어 있으므로 이름 일치
+// index comparePassword method와 바인딩되어 있으므로 이름 / 대입 변수 수 일치
 userSchema.methods.comparePassword = function(plainPassword, cb) {
+    var user = this;
     // plainPassword : 암호화된 입력 비밀번호
     // this.password : 암호화된 db에 저장된 비밀번호
     // 암호화 값 비교위해 bcrypt.compare 사용
-    bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
-        if (err) return cb(err),
+    bcrypt.compare(plainPassword, user.password, function(err, isMatch) {
+        if (err) return cb(err);
         // 두 비밀번호 일치 시 isMatch true 값 반환
-        cb(null, isMatch)
+        cb(null, isMatch);
     })
+}
+
+// 토큰 발행 메소드
+userSchema.methods.generateToken = function(cb) {
+    var user = this;
+    // jsonwebtoekn으로 토큰 생성
+    // user._id + 'secretToken' = token : 토큰 값으로 user._id 값 알 수 있음
+    var token = jwt.sign(user._id.toHexString(), 'secretToken');
+    user.token = token
+    user.save(function(err, user) {
+        if (err) return cb(err)
+        cb(null, user)
+    })
+
 }
 
 const User = mongoose.model('User', userSchema)
