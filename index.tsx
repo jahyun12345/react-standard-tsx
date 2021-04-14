@@ -18,7 +18,8 @@ mongoose.connect('mongodb+srv://jahyun12345:qlalfqjsgh12@jahyun12345.ijjvj.mongo
 }).then(() => console.log('MongoDB Connected!')).catch(err => console.log(err))
 
 // router
-app.get('/', (req, res) => res.send('Hello World!'))
+// npm run backend로 nodemon으로 실행 시 코드 변화 바로 적용되어 결과 확인 가능
+app.get('/', (req, res) => res.send('Hello World! 54321'))
 
 // client에서 입력 된 signup data database에 넣어줌
 app.post('/register', (req, res) => {
