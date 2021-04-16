@@ -1,4 +1,3 @@
-import { PromiseProvider } from 'mongoose';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from  '../../../_actions/user_action';
@@ -20,18 +19,17 @@ const Login:React.FC<RouteComponentProps> = ({history}) => {
 
     const onSubmitHandler = (event:any) => {
         event.preventDefault();
-        console.log('mail', mail);
-        console.log('password', password);
 
         let body = {
             mail: mail,
             password: password
         }
 
-        dispatch(loginUser(body))
+        dispatch(loginUser(body));
         history.push('/');
-        
+
         // .then() got error
+        // dispatch(loginUser(body))
         // .then(response => {
         //     if (response.payload.loginSuccess) {
         //         history.push('/');
@@ -43,7 +41,6 @@ const Login:React.FC<RouteComponentProps> = ({history}) => {
 
 
     return (
-        // <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', width:'100%', height:'100vh'}}>
         <div style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%', height:'100vh'}}>
             <form 
                 style={{display:'flex', flexDirection:'column'}}
@@ -57,7 +54,7 @@ const Login:React.FC<RouteComponentProps> = ({history}) => {
                 <br />
                 
                 <button>
-                    Sign-in
+                    Sign-In
                 </button>
             </form>
         </div>
