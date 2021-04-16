@@ -1,6 +1,7 @@
+const port = 5000
+
 const express = require('express')
 const app = express()
-const port = 5000
 const bodyParser = require('body-parser');
 // can not find error occured
 // const { User } = require('./models/User');
