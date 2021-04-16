@@ -92,4 +92,9 @@ app.get('/api/users/logout', auth, (req, res) => {
     })
 })
 
+// axios testing
+app.get('/api/hello', (req, res) => {
+    res.send('Hell, World');
+})
+
 app.listen(port, () => console.log('Example app listening on port' + port + '!'))
