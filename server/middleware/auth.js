@@ -1,4 +1,4 @@
-const { User } = require('../models/User.tsx');
+const { User } = require('../models/User.js');
 
 let auth = (req, res, next) => {
     // 인증 처리

@@ -2,10 +2,10 @@
   "name": "react-standard-testing",
   "version": "1.0.0",
   "description": "",
-  "main": "./server/index.tsx",
+  "main": "./server/index.js",
   "scripts": {
-    "start": "ts-node ./server/index.tsx",
-    "backend": "nodemon ./server/index.tsx",
+    "start": "node ./server/index.js",
+    "backend": "nodemon ./server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -5,10 +5,10 @@ const app = express()
 const bodyParser = require('body-parser');
 // can not find error occured
 // const { User } = require('./models/User');
-const { User } = require('./models/User.tsx');
+const { User } = require('./models/User.js');
 const config = require('./config/key.tsx');
 const cookieParser = require('cookie-parser');
-const { auth } = require('./middleware/auth.tsx');
+const { auth } = require('./middleware/auth.js');
 
 // application/x-www-urlencoded data 분석해서 가져옴
 app.use(bodyParser.urlencoded({extended:true}));
