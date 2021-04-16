@@ -6,7 +6,7 @@ let auth = (req, res, next) => {
     // index.tsx 파일에 x_auth로 쿠키 값 설정
     let token = req.cookies.x_auth;
     // 토큰 복호화(암호문 평문으로 변환) 후 사용자 찾음
-    User.findByToken(token, (err, user) => {
+    User.findByToken (token, (err, user) => {
         if (err) throw err;
         if (!user) return res.json({ isAuth: false, error: true});
         
