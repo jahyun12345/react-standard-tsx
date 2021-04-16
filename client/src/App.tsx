@@ -12,6 +12,7 @@ import Landing from './components/views/Landing/Landing';
 import Register from './components/views/Register/Register';
 import Login from './components/views/Login/Login';
 // import Footer from './components/views/Footer/Footer';
+import Auth from './hoc/auth';
 
 
 function App() {
@@ -19,9 +20,9 @@ function App() {
     <Router>
       <div>
         <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/" component={Auth(Landing, null)} />
+          <Route exact path="/register" component={Auth(Register, false)} />
+          <Route exact path="/login" component={Auth(Login, false)} />
         </Switch>
       </div>
     </Router>

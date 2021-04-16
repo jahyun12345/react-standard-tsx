@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from  '../../../_actions/user_action';
-import { RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const Login:React.FC<RouteComponentProps> = ({history}) => {
     const dispatch = useDispatch();
@@ -25,18 +25,14 @@ const Login:React.FC<RouteComponentProps> = ({history}) => {
             password: password
         }
 
-        dispatch(loginUser(body));
-        history.push('/');
-
-        // .then() got error
-        // dispatch(loginUser(body))
-        // .then(response => {
-        //     if (response.payload.loginSuccess) {
-        //         history.push('/');
-        //     } else {
-        //         alert('Error');
-        //     }
-        // });
+        dispatch(loginUser(body))
+        .then((response:any) => {
+            if (response.payload.loginSuccess) {
+                history.push('/');
+            } else {
+                alert('Error');
+            }
+        });
     }
 
 
@@ -61,4 +57,4 @@ const Login:React.FC<RouteComponentProps> = ({history}) => {
     )
 }
 
-export default Login;
+export default withRouter(Login);

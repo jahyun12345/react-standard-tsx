@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { registerUser } from  '../../../_actions/user_action';
-import { RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const Register:React.FC<RouteComponentProps> = ({history}) => {
     const dispatch = useDispatch();
@@ -40,18 +40,14 @@ const Register:React.FC<RouteComponentProps> = ({history}) => {
             password: password
         }
 
-        dispatch(registerUser(body));
-        history.push('/login');
-
-        // .then() got error
-        // dispatch(registerUser(body))
-        // .then(response => {
-        //     if (response.payload.loginSuccess) {
-        //         history.push('/login');
-        //     } else {
-        //         alert('Failed to Sign-Up');
-        //     }
-        // });
+        dispatch(registerUser(body))
+        .then((response:any) => {
+            if (response.payload.success) {
+                history.push('/login');
+            } else {
+                alert('Failed to Sign-Up');
+            }
+        });
     }
 
     return (
@@ -78,4 +74,4 @@ const Register:React.FC<RouteComponentProps> = ({history}) => {
     )
 }
 
-export default Register;
+export default withRouter(Register);

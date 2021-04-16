@@ -1,6 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
-import { RouteComponentProps } from 'react-router-dom';
+// withRouter import 해야 history.push 사용
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const Landing:React.FC<RouteComponentProps> = ({history}) => {
     // 랜딩페이지 들어오자마자 실행(axios testing)
@@ -29,4 +30,4 @@ const Landing:React.FC<RouteComponentProps> = ({history}) => {
     )
 }
 
-export default Landing;
+export default withRouter(Landing);
