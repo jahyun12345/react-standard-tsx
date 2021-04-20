@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 // 사용자 토큰 쿠키에 저장하기 위해 사용
 app.use(cookieParser());
 
+// mongoDB 연결
 const mongoose = require('mongoose')
 mongoose.connect(config.mongoURI, {
     // 에러방지 
